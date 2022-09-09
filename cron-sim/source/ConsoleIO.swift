@@ -9,7 +9,8 @@
 import Foundation
 
 class ConsoleIO {
-    
+
+    /// A helper which reads stdin
     func getInput() -> String {
       // 1
       let keyboard = FileHandle.standardInput

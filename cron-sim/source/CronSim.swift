@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 
+/// A data model which describes a cron job.
 struct Model {
     var minute: String
     var hour: String
@@ -28,6 +29,7 @@ struct Model {
     }
 }
 
+/// List of possible names for the cron jobs which detrmine its type
 enum Frequency: String {
     case everyDay = "/bin/run_me_daily"
     case everyHour = "/bin/run_me_hourly"
@@ -35,14 +37,33 @@ enum Frequency: String {
     case arbitrary
 }
 
+/// The main class you need to run
 public final class CronSim {
     
     let consoleIO = ConsoleIO()
 
     var mode: [String] = []
 
+    private let every = "*"
+
     public init() {}
 
+    /// Function which keeps running until interupted
+    func interactiveMode() {
+        print("Enter file path for the cron jobs separated by current time, e.g. input.txt 9:42")
+        var shouldQuit = false
+        while !shouldQuit {
+            print("Enter file name or type 'quit' to quit.")
+            let input = consoleIO.getInput()
+            if input == "quit" {
+                shouldQuit = true
+            } else {
+                query(userInput: input)
+            }
+        }
+    }
+
+    /// Takes user input and prints solution
     func query(userInput: String) {
         guard let fileUserInput = userInput.components(separatedBy: " ").first else {
             print("Try again")
@@ -63,6 +84,7 @@ public final class CronSim {
         solution(jobs, currentTime: timeUserInput)
     }
 
+    /// Iterates through each `Model` and prints when jobs will run.
     func solution(_ input: [Model], currentTime: String) {
         let time = parseTimeInput(currentTime)
         var result = ""
@@ -125,14 +147,6 @@ public final class CronSim {
         }
     }
 
-    private let every = "*"
-
-    private func parseTimeInput(_ input: String) -> (hour: Int, minute: Int) {
-        let components = input.components(separatedBy: ":")
-        assert(components.count == 2)
-        return (Int(components.first!)!, Int(components.last!)!)
-    }
-
     public func isInToday(currentHour: Int,
                           currentMinute: Int,
                           inputHour: Int?,
@@ -165,18 +179,12 @@ public final class CronSim {
         }
     }
 
-    func interactiveMode() {
-        print("Enter file path for the cron jobs separated by current time, e.g. input.txt 9:42")
-        var shouldQuit = false
-        while !shouldQuit {
-            print("Enter file name or type 'quit' to quit.")
-            let input = consoleIO.getInput()
-            if input == "quit" {
-                shouldQuit = true
-            } else {
-                query(userInput: input)
-            }
-        }
+    // MARK: - Private
+
+    private func parseTimeInput(_ input: String) -> (hour: Int, minute: Int) {
+        let components = input.components(separatedBy: ":")
+        assert(components.count == 2)
+        return (Int(components.first!)!, Int(components.last!)!)
     }
 
     private func parse(input: String) -> [Model]? {
