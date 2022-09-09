@@ -29,7 +29,7 @@ struct Model {
     }
 }
 
-/// List of possible names for the cron jobs which detrmine its type
+/// List of possible names for the cron jobs which detrmine its type.
 enum Frequency: String {
     case everyDay = "/bin/run_me_daily"
     case everyHour = "/bin/run_me_hourly"
@@ -37,7 +37,7 @@ enum Frequency: String {
     case arbitrary
 }
 
-/// The main class you need to run
+/// The main class you need to run.
 public final class CronSim {
     
     let consoleIO = ConsoleIO()
