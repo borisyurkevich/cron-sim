@@ -3,7 +3,7 @@ A test project which emulates cron jobs, also an example how to run Swift in com
 
 ## Run in Terminal
 
-Run `swift cron.swift` or `/cron.swift`.
+Run `swift cron.swift` or `./cron.swift`.
 
 ![](Terminal.png)
 
